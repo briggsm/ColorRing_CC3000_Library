@@ -16,13 +16,15 @@
   is necessary to ensure the buffers that client instances contain aren't
   copied and get out of sync.
 
+  Slightly modified to work with the ColorRing.
+
 */
 /**************************************************************************/
 
-#ifndef ADAFRUIT_CC3000_SERVER_H
-#define ADAFRUIT_CC3000_SERVER_H
+#ifndef COLORRING_CC3000_SERVER_H
+#define COLORRING_CC3000_SERVER_H
 
-#include "Adafruit_CC3000.h"
+#include "ColorRing_CC3000.h"
 
 #include "Print.h"
 #include "Server.h"
@@ -35,9 +37,9 @@
 // and acts like a client instance value.  This is done to mimic the semantics 
 // of the Ethernet library, without running into problems allowing client buffers
 // to be copied and get out of sync.
-class Adafruit_CC3000_ClientRef : public Print {
+class ColorRing_CC3000_ClientRef : public Print {
  public:
-  Adafruit_CC3000_ClientRef(Adafruit_CC3000_Client* client);
+  ColorRing_CC3000_ClientRef(ColorRing_CC3000_Client* client);
   // Return true if the referenced client is connected.  This is provided for
   // compatibility with Ethernet library code.
   operator bool();
@@ -62,17 +64,17 @@ class Adafruit_CC3000_ClientRef : public Print {
   // Hide the fact that users are really dealing with a pointer to a client
   // instance.  Note: this class does not own the contents of the client
   // pointer and should NEVER attempt to free/delete this pointer.
-  Adafruit_CC3000_Client* _client;
+  ColorRing_CC3000_Client* _client;
 
 };
 
 
-class Adafruit_CC3000_Server : public Server {
+class ColorRing_CC3000_Server : public Server {
 public:
   // Construct a TCP server to listen on the specified port.
-  Adafruit_CC3000_Server(uint16_t port);
+  ColorRing_CC3000_Server(uint16_t port);
   // Return a reference to a client instance which has data available to read.
-  Adafruit_CC3000_ClientRef available();
+  ColorRing_CC3000_ClientRef available();
   // Initialize the server and start listening for connections.
   virtual void begin();
   // Write data to all connected clients.  Buffer is a pointer to an array
@@ -87,7 +89,7 @@ public:
 
 private:
   // Store the clients in a simple array.
-  Adafruit_CC3000_Client _clients[MAX_SERVER_CLIENTS];
+  ColorRing_CC3000_Client _clients[MAX_SERVER_CLIENTS];
   // The port this server will listen for connections on.
   uint16_t _port;
   // The id of the listening socket.
